@@ -29,8 +29,7 @@ function Users() {
         <div className="container-fluid" >
             <div className="outer-box  mx-auto ">
                 <div className="chat-box-feild overflow-auto">
-                    <span>Hello</span>
-                    {v}
+
                 </div>
                 <div className="input-group mb-3 chat-box-message">
                     <span className="input-group-text" id="basic-addon1">Message</span>
