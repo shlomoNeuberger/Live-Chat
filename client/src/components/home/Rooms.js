@@ -10,7 +10,7 @@ function Rooms({ rooms }) {
     return (
         <div className="card" style={{ width: "18rem" }}>
             <div className="card-header">
-                Featured
+                Rooms
             </div>
             <ul className="list-group list-group-flush">
                 {_rooms}

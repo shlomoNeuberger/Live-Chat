@@ -10,7 +10,7 @@ const Home = ({ title, rooms, setUser, user }) => {
                     <UserLogin setUser={setUser} user={user} />
                 </div>
                 <div className="container col-4 col-md-6 col-lg-4 ">
-                    <Rooms rooms={rooms} />
+                    <Rooms rooms={rooms} setUser={setUser} user={user} />
                 </div>
             </div>
         </div>

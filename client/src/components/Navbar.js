@@ -14,10 +14,10 @@ const Topbar = ({ active }) => {
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className={"nav-item" + active === 'room' ? "active" : ""}>
-                            <Link className="nav-link" to="/users">users</Link>
+                            <Link className="nav-link" to="/chat">Chat</Link>
                         </li>
                         <li className={"nav-item" + active === 'new_room' ? "active" : ""}>
-                            <Link className="nav-link" to="/about">about</Link>
+                            <Link className="nav-link" to="/about">About</Link>
                         </li>
                     </ul>
                     <form className="d-flex">

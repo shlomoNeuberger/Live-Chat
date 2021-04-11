@@ -1,7 +1,7 @@
 import Nav from './components/Navbar'
 import Home from './components/home/Home'
 import About from './components/about/About'
-import Users from './components/users/Users'
+import Chat from './components/chat/Chat'
 import PageNotFound from './components/PageNotFound'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React, { useState } from 'react'
@@ -32,8 +32,8 @@ function App() {
         <Route exact path="/about">
           <About ></About>
         </Route>
-        <Route exact path="/users">
-          <Users></Users>
+        <Route exact path="/chat">
+          <Chat setUser={setUser} user={user}></Chat>
         </Route>
         <Route >
           <PageNotFound />
