@@ -22,20 +22,21 @@
     border-radius: 10px;
 }
 
-.d-inline-flex.msg{
+.msg{
+    width: fit-content;
     border-radius: 10px;
-    padding: 0.5rem;
 }
-.d-inline-flex.msg.in{
-    float: right;
+.msg.in{
     background-color: darkseagreen;
     align-self: flex-end;
 }
-.d-inline-flex.msg.out{
-    float: left;
+.msg.out{
     background-color: darkslategrey;
     
 }
-.d-inline-flex.msg.join{
+.msg.join{
     background-color: red;
+}
+.msg span{
+    padding: 0.5rem;
 }

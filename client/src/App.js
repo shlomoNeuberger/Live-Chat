@@ -21,18 +21,23 @@ const rooms = [
 function App() {
   const [user, setUser] = useState({ name: '', email: '', active: false })
 
-  console.log(user);
+
   return (
     <Router>
       <Nav />
       <Switch>
-        <Route exact path="/">
-          <Home title="Home" rooms={rooms} setUser={setUser} user={user}></Home>
-        </Route>
+        <Route
+          exact
+          path="/"
+          render={(props) => <Home title="Home" rooms={rooms} setUser={setUser} user={user} {...props}></Home>}
+        />
         <Route exact path="/about">
           <About ></About>
         </Route>
         <Route exact path="/chat">
+          <Chat setUser={setUser} user={user}></Chat>
+        </Route>
+        <Route exact path="/room/:roomId/:roomName"  >
           <Chat setUser={setUser} user={user}></Chat>
         </Route>
         <Route >

@@ -1,19 +1,36 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import './UserLogin.css'
 
-function UserLogin({ setUser, user }) {
+function UserLogin({ setUser, user, errorFlag, errorMsg }) {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const handler = (e) => {
+    const [error, setError] = useState({ errorFlag: errorFlag, errorMsg: errorMsg })
+    const loginHandler = (e) => {
+        if (username && email) {
+            setUser({
+                name: username,
+                email: email,
+                active: true
+            })
+        } else {
+            setError(
+                {
+                    errorFlag: true,
+                    errorMsg: `The fields: ${username === "" ? "usernmae\t" : ""} ${email === "" ? "Email\n" : ""} are empty`
+                })
+        }
+    }
+    const logoutHandler = (e) => {
         setUser({
-            name: username,
-            email: email,
-            active: true
+            name: "",
+            email: "",
+            active: false
         })
     }
     if (!user.active) {
         return (
-            <form className="container" method="GET" onSubmit={e => { e.preventDefault(); handler(e); }}>
+            <form className="container" method="GET" onSubmit={e => { e.preventDefault(); loginHandler(e); }}>
                 <div className="login login-border">
                     <h1>User Login</h1>
                     <div className="input-group mb-3">
@@ -41,6 +58,11 @@ function UserLogin({ setUser, user }) {
                             aria-describedby="basic-addon1" />
                         <button type="submit" className="btn btn-outline-success" >Login</button>
                     </div>
+                    {
+                        error.errorFlag ? <div className="alert alert-danger" role="alert">
+                            {error.errorMsg}
+                        </div> : null
+                    }
                 </div>
             </form >
         )
@@ -51,11 +73,14 @@ function UserLogin({ setUser, user }) {
                 <h6 className=" text-muted">Email: {user.email}</h6>
                 <p>please choose room</p>
                 <div className="d-flex align-items-end flex-column">
-                    <button
-                        className="btn btn-outline-danger ml-auto"
-                        onClick={e => { let u = user; u.active = false; setUser(u); setEmail('') }}>
-                        Logout
-                    </button>
+                    <form method="GET" onSubmit={e => { e.preventDefault(); logoutHandler(e); }}>
+                        <button
+                            type="submit"
+                            className="btn btn-outline-danger ml-auto"
+                        >
+                            Logout
+                        </button>
+                    </form>
                 </div>
             </div >
         )

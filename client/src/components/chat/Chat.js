@@ -1,50 +1,66 @@
 import React from 'react'
+import { Redirect, useParams } from 'react-router-dom'
 import './Chat.css'
-function makeid(length) {
-    var result = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result.push(characters.charAt(Math.floor(Math.random() *
-            charactersLength)));
-    }
-    return result.join('');
-}
-function Users() {
-    let msg = []
-    for (let index = 1; index < 50; index++) {
-        if (index % 3) {
-            msg.push({ index: makeid(index), style: "d-inline-flex msg in" })
-        } else if (index % 7) {
-            msg.push({ index: makeid(index), style: "d-inline-flex  msg out" })
-        }
-        else {
-            msg.push({ index: makeid(index % 10 + 1), style: "d-inline-flex  msg join" })
-        }
-    }
-    const v = msg.map(m => <div className="a"><p className={m.style}>{`${m.index}`}</p></div>)
+
+// function makeid(length) {
+//     var result = [];
+//     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//     var charactersLength = characters.length;
+//     for (var i = 0; i < length; i++) {
+//         result.push(characters.charAt(Math.floor(Math.random() *
+//             charactersLength)));
+//     }
+//     return result.join('');
+// }
 
 
-    return (
-        <div className="container-fluid" >
-            <div className="outer-box  mx-auto ">
-                <div className="chat-box-feild overflow-auto">
-
+function Users({ user, setUser }) {
+    const { roomId, roomName } = useParams()
+    console.log(roomId);
+    console.log(roomName);
+    if (user.active)
+        return (
+            <div className="container-fluid" >
+                <div className="outer-box  mx-auto ">
+                    <div className="chat-box-feild overflow-auto">
+                        {
+                            //In: classname float-start msg in
+                            //Out: classname float-end msg out
+                            //Join: classname msg join mx-auto
+                        }
+                        <div className="msg join mx-auto"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-start msg in"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-end msg out"><span>out:I'm ok 10x</span> </div><br />
+                        <div className="float-start msg in"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-end msg out"><span>out:I'm ok 10x</span> </div><br />
+                        <div className="float-start msg in"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-end msg out"><span>out:I'm ok 10x</span> </div><br />
+                        <div className="float-start msg in"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-end msg out"><span>out:I'm ok 10x</span> </div><br />
+                        <div className="float-start msg in"><span>in:Hello How Are you</span> </div><br />
+                        <div className="float-end msg out"><span>out:I'm ok 10x</span> </div><br />
+                    </div>
+                    <div className="input-group mb-3 chat-box-message">
+                        <span className="input-group-text" id="basic-addon1">Message</span>
+                        <input
+                            type="msg"
+                            name="msg"
+                            className="form-control"
+                            placeholder="Insert your message..."
+                            aria-label="msg"
+                            aria-describedby="basic-addon1" />
+                        <button type="submit" className="btn btn-outline-success" >Send</button>
+                    </div>
                 </div>
-                <div className="input-group mb-3 chat-box-message">
-                    <span className="input-group-text" id="basic-addon1">Message</span>
-                    <input
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="Email"
-                        aria-label="Email"
-                        aria-describedby="basic-addon1" />
-                    <button type="submit" className="btn btn-outline-success" >Send</button>
-                </div>
-            </div>
-        </div >
-    )
+            </div >
+        );
+    else
+        return (
+            <Redirect to={{
+                pathname: "/",
+                state: { src: 'Chat' },
+            }} />
+        );
 }
 
 export default Users
