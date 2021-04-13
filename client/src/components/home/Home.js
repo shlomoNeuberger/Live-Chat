@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Rooms from './Rooms'
 import UserLogin from './UserLogin/UserLogin'
+
 function getFromRedirect(redirectState) {
     if (redirectState) {
         switch (redirectState.src) {
@@ -25,9 +27,19 @@ function getFromRedirect(redirectState) {
     }
 }
 
-const Home = ({ rooms, setUser, user, location }) => {
+const Home = ({ setUser, user, location }) => {
+
     const redirectState = location.state
     const { errorFlag, errorMsg } = getFromRedirect(redirectState)
+    const [rooms, setRooms] = useState([])
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/rooms').then(({ data }) => {
+            setRooms(data.rooms)
+        }).catch(err => console.log(err))
+    }, [])
+
+
+
     return (
         <div className="container" style={{ height: "100%" }}>
             <div className="row" >
