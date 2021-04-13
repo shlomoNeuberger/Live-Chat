@@ -6,20 +6,14 @@ import PageNotFound from './components/PageNotFound'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import React, { useState } from 'react'
 
-const rooms = [
-  {
-    name: "room1",
-    id: 1
-  },
-  {
-    name: "room2",
-    id: 2
-  }
-]
+
+
 
 
 function App() {
   const [user, setUser] = useState({ name: '', email: '', active: false })
+
+
 
 
   return (
@@ -29,7 +23,7 @@ function App() {
         <Route
           exact
           path="/"
-          render={(props) => <Home title="Home" rooms={rooms} setUser={setUser} user={user} {...props}></Home>}
+          render={(props) => <Home title="Home" setUser={setUser} user={user} {...props}></Home>}
         />
         <Route exact path="/about">
           <About ></About>
@@ -37,9 +31,11 @@ function App() {
         <Route exact path="/chat">
           <Chat setUser={setUser} user={user}></Chat>
         </Route>
-        <Route exact path="/room/:roomId/:roomName"  >
-          <Chat setUser={setUser} user={user}></Chat>
-        </Route>
+        <Route
+          exact
+          path="/room/:roomSlug"
+          component={(props) => { return <Chat setUser={setUser} user={user} {...props}></Chat> }}
+        />
         <Route >
           <PageNotFound />
         </Route>
