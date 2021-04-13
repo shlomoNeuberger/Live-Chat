@@ -17,7 +17,9 @@
 
 .chat-box-message{
     padding: 0 1% 2% 1%;
-    width: 100%; 
+    margin-top: 0vh;
+    margin-bottom: 2vh;
+    width: 90vW;
     height: 10%;
     border-radius: 10px;
 }
@@ -25,18 +27,24 @@
 .msg{
     width: fit-content;
     border-radius: 10px;
+    padding: 0 0.2rem;
 }
 .msg.in{
-    background-color: darkseagreen;
-    align-self: flex-end;
+    background-color: darkblue;
+    background-color: darkblue;
+    color:white;
 }
 .msg.out{
     background-color: darkslategrey;
+    color:white;
     
 }
 .msg.join{
-    background-color: red;
+    background-color: crimson;
+    color:white;
 }
-.msg span{
-    padding: 0.5rem;
+
+.muted{
+    color:lightgrey;
+    font-size: 0.9em;
 }
