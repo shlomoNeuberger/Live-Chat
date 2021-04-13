@@ -1,13 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const cors = require('cors')
+
 require('dotenv').config()
 
 const route = express.Router()
+
 const db = process.env.MON_DB || "mongodb://localhost:27017/test"
 
 route.use(bodyParser.urlencoded({ extended: false }));
 route.use(bodyParser.json());
+route.use(cors());
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
 const RoomSchema = new mongoose.Schema(
@@ -51,12 +55,13 @@ function randomString(length) {
 
 
 async function slugGenerator(name) {
-    const doc = await Room.findOne({ slug: name })
+    const _slug = name.split(" ").join("-") + "_" + randomString(5)
+    const doc = await Room.findOne({ slug: _slug, })
     if (doc) {
-        const slug = name.replace(" ", "-") + "_" + randomString(5)
-        return await slugGenerator(slug)
+        const slug = name.split(" ").join("-") + "_" + randomString(5)
+        return slugGenerator(slug)
     } else {
-        return name.replace(" ", "-")
+        return _slug
     }
 }
 
@@ -67,7 +72,7 @@ route.get("/api/rooms", async (req, res) => {
             console.log(err);
             res.json({ Status: 500, Message: "Server Error" }).status(500)
         } else if (docs) {
-            const rooms = docs.map(doc => { return { name: doc.name, id: doc._id } })
+            const rooms = docs.map(doc => { return { name: doc.name, id: doc._id, slug: doc.slug.split("_")[doc.slug.split("_").length - 1] } })
             res.json({ Status: 200, Message: "Success", rooms: rooms }).status(200)
         }
     })
