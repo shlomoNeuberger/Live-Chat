@@ -13,6 +13,7 @@ function UserLogin({ setUser, user, errorFlag, errorMsg }) {
             axios.post(ENDPOINT, {
                 data: { name: username, password: password }
             }).then(({ data }) => {
+                console.log(data);
                 if (data !== 'Error')
                     setUser(data)
             })
