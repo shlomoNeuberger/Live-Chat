@@ -121,13 +121,13 @@ route.get('/api/:feild/:value', (req, res) => {
 route.post("/api/login", (req, res) => {
     const username = req.body.data.name
     const password = req.body.data.password
-    User.findOne({ username: username }, async (err, doc) => {
+    console.log(username, password);
+    User.findOne({ username: username }, (err, doc) => {
         if (err) {
             console.log(err);
             res.json("Error").status(500)
         } else if (doc) {
             if (doc.get('password') === password) {
-                console.log(d);
                 res.json({
                     name: username,
                     email: doc.get('email'),
