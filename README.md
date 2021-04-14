@@ -10,7 +10,12 @@ Mainly designed with bootstrap
 
 
 # Pictures
-![Login.jpg]()
+## Login Screen
+![Login Screen](Login.jpg)
 
 
+## Main Screen
+![Login Screen](main.jpg)
 
+## Chat Live gif
+![Login Screen](Exemple.gif)
