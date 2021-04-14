@@ -34,12 +34,19 @@ const Message = mongoose.model('Message')
 const Room = mongoose.model('Room')
 
 
-
+function update() {
+    io.sockets.emit('update', '')
+    setTimeout(() => {
+        update();
+    }, Math.floor(Math.random() * 5000))
+}
 
 
 io.on('connection', (socket) => {
+    update()
     console.log("Connected " + socket.id);
     socket.on('msg', (msg) => {
+
         io.to(msg.room).emit('msg', msg)
     });
 

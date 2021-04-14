@@ -66,7 +66,7 @@ async function slugGenerator(name) {
 }
 
 
-route.get("/api/rooms", async (req, res) => {
+route.get("/api/rooms", (req, res) => {
     Room.find({}, (err, docs) => {
         if (err) {
             console.log(err);
@@ -84,5 +84,63 @@ route.get("/api/rooms", async (req, res) => {
         res.json({ Message: "OK", room: room }).status(200)
     })
 })
+
+route.get('/api/:feild/:value', (req, res) => {
+    console.log(req.params);
+    const field = req.params.feild
+    const value = req.params.value
+    let filter = {}
+    switch (field) {
+        case 'email':
+            filter = { email: value }
+            break;
+        case 'name':
+            filter = { username: value }
+            break;
+        case 'password':
+            filter = { password: value }
+            break;
+        default:
+            console.log(feild);
+            break;
+    }
+    User.find(filter, (err, docs) => {
+        if (err) {
+            console.log(err);
+        } else {
+            if (docs.length > 0) {
+                res.json({ isTeaken: true }).status(200)
+            } else {
+                res.json({ isTeaken: false }).status(200)
+            }
+        }
+    })
+
+})
+
+route.post("/api/login", (req, res) => {
+    const username = req.body.data.name
+    const password = req.body.data.password
+    User.findOne({ username: username }, async (err, doc) => {
+        if (err) {
+            console.log(err);
+            res.json("Error").status(500)
+        } else if (doc) {
+            if (doc.get('password') === password) {
+                console.log(d);
+                res.json({
+                    name: username,
+                    email: doc.get('email'),
+                    active: true
+                }).status(200)
+            } else {
+                res.send("Error").status(403)
+            }
+        } else {
+            res.send("Error").status(403)
+        }
+    })
+})
+
 
 module.exports = route
