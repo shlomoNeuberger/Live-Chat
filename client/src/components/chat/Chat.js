@@ -1,19 +1,9 @@
 import React, { } from 'react'
 import { Redirect } from 'react-router-dom'
 import './Chat.css'
-
 import socketIOClient from 'socket.io-client'
 import Message from './Message'
-// function makeid(length) {
-//     var result = [];
-//     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//     var charactersLength = characters.length;
-//     for (var i = 0; i < length; i++) {
-//         result.push(characters.charAt(Math.floor(Math.random() *
-//             charactersLength)));
-//     }
-//     return result.join('');
-// }
+
 
 
 const ENDPOINT = "ws://127.0.0.1:3001/"
@@ -22,12 +12,6 @@ const ENDPOINT = "ws://127.0.0.1:3001/"
 class Chat extends React.Component {
     socket
     roomSlug
-    async endlessUpdate() {
-        this.setState({ msg: this.state.msg })
-        setTimeout(() => {
-            this.endlessUpdate()
-        }, Math.random() * 5000);
-    }
     constructor(props) {
         super(props);
         if (this.props.location)
@@ -36,7 +20,6 @@ class Chat extends React.Component {
             msg: "",
             messages: [],
         }
-        this.endlessUpdate()
 
     }
     componentDidCatch() {
@@ -53,14 +36,17 @@ class Chat extends React.Component {
         this.socket = socketIOClient(ENDPOINT);
         this.socket.emit("conect room", joinRoom)
 
-        this.socket.on('msg', (args) => {
-            let tArray = [...this.state.messages]
-            tArray.push(args)
-            this.setState({ messages: tArray })
+        this.socket.on('update', () => this.forceUpdate())
 
-        });
+        this.socket.
+            on('msg', (args) => {
+                let tArray = [...this.state.messages]
+                tArray.push(args)
+                this.setState({ messages: tArray })
+            });
     }
     componentDidUpdate() {
+
     }
     componentWillUnmount() {
         this.socket.disconnect()
@@ -74,6 +60,7 @@ class Chat extends React.Component {
         if (this.state.msg !== '') {
             this.setState({ msg: '' })
             const message = {
+                id: Math.random() * 4000,
                 msg: this.state.msg,
                 user: this.props.user,
                 room: this.roomSlug,
@@ -90,21 +77,21 @@ class Chat extends React.Component {
     render() {
         if (this.props.user.active && this.props.location) {
             return (
-                <div className="container-fluid" >
-                    <div className="outer-box  mx-auto ">
-                        <div className="chat-box-feild p-2 overflow-auto container-fluid">
+                <div className="container-fluid " >
+                    <div className="outer-box mx-auto  ">
+                        <div className="chat-box-feild px-4 overflow-auto">
                             {
                                 this.state.messages.map(e =>
                                     <Message key={e.id} e={e} user={this.props.user} />
-
                                 )
                             }
                         </div>
-                        <form className="form-controls" onSubmit={e => this.submitHandle(e)}>
-                            <div className="input-group chat-box-message">
+                        <form className="chat-box-message" onSubmit={e => this.submitHandle(e)}>
+                            <div className="input-group ">
                                 <span className="input-group-text" id="basic-addon1">Message</span>
                                 <input
                                     name="msg"
+                                    type="text"
                                     className="form-control"
                                     placeholder="Insert your message..."
                                     aria-label="msg"

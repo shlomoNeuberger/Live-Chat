@@ -15,14 +15,26 @@ function prettyPrintDateDiff(current, previous) {
     }
 }
 
+function prettyTextLength(text) {
+    const splittedList = text.split('');
+    const finalString = [];
+    for (let index = 0; index < splittedList.length; index++) {
+        const c = splittedList[index];
+        finalString.push(c)
+        if (index % 40 == 0) {
+            finalString.push("\n")
+        }
+    }
+    return finalString.join("")
 
+}
 
 function InMsg({ e, user }) {
     return (
         <div className="row my-2">
             <div className="col-sm">
                 <div className='msg float-start in'>
-                    <p className="msg ms-1">{(e.msg)}</p>
+                    <p className="msg ms-1">{prettyTextLength(e.msg)}</p>
                     <span className="muted">{prettyPrintDateDiff(Date.now(), e.timestemp)}</span>
                 </div>
             </div>
@@ -44,7 +56,7 @@ function OutMsg({ e, user }) {
             </div>
             <div className="col-sm">
                 <div className='msg float-end out'>
-                    <p className="msg">{(e.msg)}</p>
+                    <p className="msg">{prettyTextLength(e.msg)}</p>
                     <span className="muted">{prettyPrintDateDiff(Date.now(), e.timestemp)}</span>
                 </div>
             </div>

@@ -1,2 +1,12 @@
 # Live-Chat
-This live chat splitted to rooms
+## Backend
+The backend serever is based on node.js and express<br>
+Websockets used with socket-io<br>
+Database Mongodb with mongoose<br>
+
+## Frontend
+The front end is based on the React.js Framework<br>
+Mainly designed with bootstrap5
+
+
+

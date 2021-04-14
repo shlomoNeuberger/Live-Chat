@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Rooms from './Rooms'
-import UserLogin from './UserLogin/UserLogin'
+import Rooms from '../Rooms'
+import UserLogin from '../UserLogin/UserLogin'
 
 function getFromRedirect(redirectState) {
     if (redirectState) {
@@ -11,13 +11,11 @@ function getFromRedirect(redirectState) {
                     errorFlag: true,
                     errorMsg: "Plese login first"
                 }
-                break;
             default:
                 return {
                     errorFlag: true,
                     errorMsg: "unknown error"
                 }
-                break;
         }
     } else {
         return {
@@ -33,9 +31,14 @@ const Home = ({ setUser, user, location }) => {
     const { errorFlag, errorMsg } = getFromRedirect(redirectState)
     const [rooms, setRooms] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:3001/api/rooms').then(({ data }) => {
-            setRooms(data.rooms)
-        }).catch(err => console.log(err))
+        const getData = async () => {
+            const resp = await axios
+                .get('http://localhost:3001/api/rooms')
+                .catch(err => console.log(err))
+            if (resp)
+                setRooms(resp.data.rooms)
+        }
+        getData();
     }, [])
 
 
@@ -47,7 +50,7 @@ const Home = ({ setUser, user, location }) => {
                     <UserLogin setUser={setUser} user={user} errorFlag={errorFlag} errorMsg={errorMsg} />
                 </div>
                 <div className="container col-4 col-md-6 col-lg-4 ">
-                    <Rooms rooms={rooms} setUser={setUser} user={user} />
+                    {user.active ? <Rooms rooms={rooms} setUser={setUser} user={user} /> : null}
                 </div>
             </div>
         </div>
