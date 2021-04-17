@@ -43,7 +43,8 @@
   "react-dotenv": {
     "whitelist": [
       "BASE_API",
-      "BASE_SERVER"
+      "BASE_SERVER",
+      "BASE_IO_SOCKET"
     ]
   }
 }
