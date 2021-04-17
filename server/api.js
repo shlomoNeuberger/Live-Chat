@@ -14,21 +14,23 @@ route.use(bodyParser.json());
 route.use(cors());
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
-const RoomSchema = new mongoose.Schema(
-    {
-        name: String,
-        slug: String
-    }
-)
 const UserSchema = new mongoose.Schema(
     {
         username: String,
         email: String,
         logged: Boolean,
-        lastLoggin: Date,
-        currentRoom: RoomSchema
+        lastLoggin: Date
     }
 )
+
+const RoomSchema = new mongoose.Schema(
+    {
+        name: String,
+        slug: String,
+        users: [UserSchema]
+    }
+)
+
 const MessageSchema = new mongoose.Schema(
     {
         owner: UserSchema,
@@ -85,6 +87,12 @@ route.get("/api/rooms", (req, res) => {
     })
 })
 
+route.get("/api/room/:slug", (req, res) => {
+
+})
+
+
+
 route.get('/api/:feild/:value', (req, res) => {
     console.log(req.params);
     const field = req.params.feild
@@ -120,4 +128,4 @@ route.get('/api/:feild/:value', (req, res) => {
 
 
 
-module.exports = route
+module.exports.route = route
