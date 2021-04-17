@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './UserLogin.css'
 import InputCustom from '../inputs/Input'
 import axios from 'axios';
+import env from "react-dotenv";
 
-const ENDPOINT = "http://127.0.0.1:3001/api/login"
+const ENDPOINT = env.BASE_SERVER
 function UserLogin({ setUser, user, errorFlag, errorMsg }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,11 +13,27 @@ function UserLogin({ setUser, user, errorFlag, errorMsg }) {
         if (username && password) {
             axios.post(ENDPOINT, {
                 data: { name: username, password: password }
-            }).then(({ data }) => {
-                console.log(data);
-                if (data !== 'Error')
-                    setUser(data)
             })
+                .then((res) => {
+                    const data = res.data
+                    if (res.status === 200) {
+                        if (data !== 'Error') {
+                            setUser(data)
+                        }
+                    } else if (res.status === 203) {
+                        setError({
+                            errorFlag: true,
+                            errorMsg: "Username or password is incorrect"
+                        })
+                    }
+                })
+                .catch((err) => {
+                    //TODO: Send server error log generate error number
+                    setError({
+                        errorFlag: true,
+                        errorMsg: "Server error please try again later"
+                    })
+                })
 
         } else {
             setError(
@@ -33,7 +50,6 @@ function UserLogin({ setUser, user, errorFlag, errorMsg }) {
             active: false
         })
     }
-
     if (!user.active) {
         return (
             <form className="container" method="POST" onSubmit={e => { e.preventDefault(); loginHandler(e); }}>
