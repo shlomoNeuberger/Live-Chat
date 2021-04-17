@@ -15,7 +15,7 @@ Mainly designed with bootstrap
 
 
 ## Main Screen
-![Login Screen](main.jpg)
+![Main Screen](main.jpg)
 
-## Chat Live gif
-![Login Screen](Exemple.gif)
+## Chat Live 
+![Chat Screen](Exemple.gif)
