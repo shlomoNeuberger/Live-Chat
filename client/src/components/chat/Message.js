@@ -21,7 +21,7 @@ function prettyTextLength(text) {
     for (let index = 0; index < splittedList.length; index++) {
         const c = splittedList[index];
         finalString.push(c)
-        if (index + 1 % 40 == 0) {
+        if (index + 1 % 40 === 0) {
             finalString.push("\n")
         }
     }
