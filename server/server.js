@@ -72,14 +72,40 @@ io.on("disconnect", (socket) => {
 
 })
 
+
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/views/index.html")
 })
 
-app.get("/react", (req, res) => {
-    console.log("react");
-    //res.sendFile(__dirname + "/build/index.html")
-})
+app
+    .post("/login", (req, res) => {
+        const username = req.body.data.name
+        const password = req.body.data.password
+        User.findOne({ username: username }, (err, doc) => {
+            if (err) {
+                console.log('error in server call to  monngose');
+                res.status(500).json("Error")
+            } else if (doc) {
+                if (doc.get('password') === password) {
+                    res.status(200).json({
+                        name: username,
+                        email: doc.get('email'),
+                        active: true
+                    })
+                } else {
+                    console.log("unknoewn user");
+                    res.status(203).send("Error")
+                }
+            } else {
+                res.status(404).send("Error")
+            }
+        })
+    })
+    .get("/login", (req, res) => {
+        res.send().status(404)
+    })
+
+
 
 
 server.listen(PORT, () => {

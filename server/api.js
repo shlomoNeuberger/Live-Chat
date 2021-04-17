@@ -118,29 +118,6 @@ route.get('/api/:feild/:value', (req, res) => {
 
 })
 
-route.post("/api/login", (req, res) => {
-    const username = req.body.data.name
-    const password = req.body.data.password
-    console.log(username, password);
-    User.findOne({ username: username }, (err, doc) => {
-        if (err) {
-            console.log(err);
-            res.json("Error").status(500)
-        } else if (doc) {
-            if (doc.get('password') === password) {
-                res.json({
-                    name: username,
-                    email: doc.get('email'),
-                    active: true
-                }).status(200)
-            } else {
-                res.send("Error").status(403)
-            }
-        } else {
-            res.send("Error").status(403)
-        }
-    })
-})
 
 
 module.exports = route
