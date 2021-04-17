@@ -115,6 +115,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+#env files
+.env
+env.*
 
 .DS_Store
 build/
