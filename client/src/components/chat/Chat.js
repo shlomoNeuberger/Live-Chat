@@ -3,13 +3,14 @@ import { Redirect } from 'react-router-dom'
 import './Chat.css'
 import socketIOClient from 'socket.io-client'
 import Message from './Message'
+import env from 'react-dotenv'
 
 
 
-const ENDPOINT = "ws://127.0.0.1:3001/"
-
+const ENDPOINT = env.BASE_IO_SOCKET
 
 class Chat extends React.Component {
+    messagesEndRef = React.createRef()
     socket
     roomSlug
     constructor(props) {
@@ -22,9 +23,6 @@ class Chat extends React.Component {
         }
 
     }
-    componentDidCatch() {
-        console.log("Did Catch")
-    }
     componentDidMount() {
         const joinRoom = {
             room: this.roomSlug,
@@ -32,19 +30,22 @@ class Chat extends React.Component {
             user: this.props.user,
             timestemp: Date.now(),
         }
-        console.log("Did Mount")
         this.socket = socketIOClient(ENDPOINT);
         this.socket.emit("conect room", joinRoom)
-
-        this.socket.on('update', () => this.forceUpdate())
-
-        this.socket.
-            on('msg', (args) => {
+        this.socket
+            .on('update', () => this.forceUpdate())
+            .on('msg', (args) => {
                 let tArray = [...this.state.messages]
                 tArray.push(args)
                 this.setState({ messages: tArray })
+                this.scrollIntoEndChat()
             });
     }
+
+    scrollIntoEndChat() {
+        this.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+
     componentDidUpdate() {
 
     }
@@ -74,6 +75,7 @@ class Chat extends React.Component {
 
 
 
+
     render() {
         if (this.props.user.active && this.props.location) {
             return (
@@ -85,6 +87,7 @@ class Chat extends React.Component {
                                     <Message key={e.id} e={e} user={this.props.user} />
                                 )
                             }
+                            <div ref={this.messagesEndRef}></div>
                         </div>
                         <form className="chat-box-message" onSubmit={e => this.submitHandle(e)}>
                             <div className="input-group ">
@@ -101,7 +104,6 @@ class Chat extends React.Component {
                                 <button
                                     type="submit"
                                     className="btn btn-outline-success"
-
                                 >
                                     Send
                                 </button>
