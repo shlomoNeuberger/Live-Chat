@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function Rooms({ rooms }) {
     let _rooms = rooms.map(
-        elem => <li key={elem.id} className="list-group-item" > <Link to={`/room/${elem.slug}`}>{`${elem.name}(${elem.slug})`}</Link></li>
+        elem => <li key={elem.id} className="list-group-item" > <Link to={`/room/${elem.name}/${elem.slug}`}>{`${elem.name}(${elem.slug})`}</Link></li>
     );
 
     return (

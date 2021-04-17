@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 
 
 function App() {
-  const [user, setUser] = useState({ name: '', email: '', active: false })
+  const [user, setUser] = useState({ name: '', email: '', active: false, id: '' })
 
 
 
@@ -33,7 +33,7 @@ function App() {
         </Route>
         <Route
           exact
-          path="/room/:roomSlug"
+          path="/room/:roomName/:roomSlug"
           component={(props) => { return <Chat setUser={setUser} user={user} {...props}></Chat> }}
         />
         <Route >
